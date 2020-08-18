@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- JPA -->
+	<context:component-scan base-package="com.test.ex">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+    
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+    </bean>
+    
+    <jpa:repositories base-package="com.test.ex.repository"/><!-- transactionManager라는 이름이 아니면 명시적으로 등록해주어야한다. -->
+		
+	<!-- MariaDB JDBC DataSource -->
+	<bean id="dataSourceSpied" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
+		<property name="url" value="jdbc:mariadb://127.0.0.1:3307/example" />
+		<property name="username" value="root" />
+		<property name="password" value="chj211" />
+	</bean>
+	
+	<!-- [Spring] log4jdbc-remix 를 이용한 쿼리로그 출력 -->
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="dataSourceSpied" /> <!-- 위에 bean name이랑 맞춰줌 -->
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE" />
+                <property name="sqlPrefix" value="SQL         :  " /> 
+            </bean>
+        </property>
+ 	</bean>
+ 	
+ 	<!-- sqlSession을 생성하는 factory 객체 생성:(factory는 디자인패턴) -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- src/main/resouces 이후 위치 알려준다. -->
+		<property name="configLocation" value="classpath:/config/sql-map-config.xml" /> 
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>	
+	
+	<!-- 3번과 4번 방식을 사용하기 위한 방식임 -->
+	<!-- 3번: xml 읽는 대신에 Mapper Interface의 @어노테이션(sql문) 스캔!해서 객체 생성!! -->
+	<!-- Mapper Interface -->
+	<mybatis-spring:scan base-package="com.test.ex.mapper" /> <!-- mapper 인식 -->
+	
+	<!-- @component(service 등) 써있는 클래스를 bean으로 인식 -->
+	<!-- invalid bound statement (not found): service 에러 이후로 인식하라고 끼워준 것; namespace 체크 필요 -->
+	<context:component-scan base-package="com.test.ex.service" />
+</beans>
