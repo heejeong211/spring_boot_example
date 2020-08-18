@@ -1,0 +1,46 @@
+spring:
+  profiles:
+    active: mysql
+
+  main:
+    allow-bean-definition-overriding: true #같은 프로젝트 내에 reader라는 Bean이 생성되었다고 해서 이 코드를 추가하면 같은 이름의 Bean을 생성할 수 있음
+
+  batch:
+    job:
+      names: ${job.name:NONE} #지정한 Batch Job만 실행되도록 하는 코드, 값이 없을 때 모든 Batch가 실행되지 않도록 막는 코드, program argument에서 수정
+
+logging:
+  level:
+   org: 
+    springframework:
+      batch: DEBUG
+
+#---
+#spring:
+#  profiles: local
+#  datasource:
+#    hikari:
+#      jdbc-url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+#      username: sa
+#      password:
+#      driver-class-name: org.h2.Driver
+---
+spring:
+  profiles: mysql
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_batch?serverTimezone=UTC
+    username: root
+    password: chj211
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+       dialect: org.hibernate.dialect.MySQL5Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+      
+
+
+        
