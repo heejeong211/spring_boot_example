@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.BoardMapper">
+
+	<!-- 리스트 출력 -->
+	<select id="selectBoardList" resultType="com.example.demo.vo.BoardVO">
+		SELECT B_NO, B_TITLE,
+		B_CONTENT, B_NICK FROM BOARD
+	</select>
+
+	<!-- 게시물 보기 -->
+	<select id="selectBoardOne" resultType="java.util.HashMap"
+		parameterType="int">
+		SELECT B_NO, B_TITLE, B_CONTENT, B_NICK FROM BOARD WHERE
+		B_NO = #{b_no}
+	</select>
+
+	<!-- 게시물 쓰기 -->
+	<!-- b_no은 자동증가됨 -->
+	<insert id="insertBoardWrite">
+		INSERT INTO BOARD (B_TITLE, B_CONTENT, B_NICK) VALUES
+		(#{b_title}, #{b_content}, #{b_nick})
+	</insert>
+
+	<!-- 게시물 수정 (put방식) -->
+	<update id="updateBoardOne">
+		UPDATE BOARD 
+		SET B_TITLE = #{b_title}, 
+		B_CONTENT = #{b_content}, 
+		B_NICK = #{b_nick}
+		WHERE B_NO = #{b_no}
+	</update>
+
+	<!-- 게시물 삭제 (일반 controller) -->
+	<delete id="deleteBoardOne">
+		DELETE FROM BOARD WHERE B_NO = #{b_no}
+	</delete>
+
+	<!-- 게시물 삭제 (restcontroller) -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM BOARD WHERE
+		B_NO = #{b_no}
+	</delete>
+	
+	<!-- 게시물 수정(patch방식 - query문으로 조건 줌) -->
+	<update id="patchBoard">
+		update board
+		set b_title = case when length(#{b_title}) > 0 then #{b_title} else b_title end
+		, b_content = case when length(#{b_content}) > 0 then #{b_content} else b_content end
+		, b_nick = case when length(#{b_nick}) > 0 then #{b_nick} else b_nick end
+		where b_no = #{b_no}
+	</update>
+
+	<!-- 게시물 보기(이게 HashMap보다 간단할 수 있음, patch방식 - controller단에서 조건 줌) -->
+	<select id="selectBoard" parameterType="int"
+		resultType="com.example.demo.vo.BoardVO">
+		SELECT B_NO, B_TITLE, B_CONTENT, B_NICK FROM BOARD WHERE
+		B_NO = #{b_no}
+	</select>
+
+	
+
+</mapper>
