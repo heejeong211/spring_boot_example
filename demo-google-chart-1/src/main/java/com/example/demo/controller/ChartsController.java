@@ -41,7 +41,7 @@ public class ChartsController {
 		return new ModelAndView("google-line-charts");
 	}
 	
-	//line_charts_view 호출 부분
+	//pie_charts_view 호출 부분
 	@RequestMapping(value="/pie_charts_view", method=RequestMethod.GET)
 	public ModelAndView pie_line_view () {
 			
