@@ -33,7 +33,7 @@
 		var options = {
 			chart : {
 				title : '피자 토핑',
-				subtitle : '피자먹고싶당', // 클래식 막대형 차트에서는 영향x
+				subtitle : '피자먹고싶당', //클래식 차트(corechart)에서는 영향x
 			},
 			bars : 'horizontal', //막대그래프 가로로(이부분 지우면 세로됨) 클래식 막대형 차트에서는 영향x
 			colors: ['skyblue']
@@ -52,13 +52,12 @@
 </body>
 </html>
 
-<!-- 지금은 options은 표현 되는데 sytle이 표현 안됨..... -->
-<!-- 밑에 있는 코드 사용하면 sytle은 표현되는데 options이 표현이 안됨.... 어쩌라는 거짘ㅋㅋㅋㅋㅋㅋㅋ -->
-<!-- google.charts.load("current", {packages: ["corechart"]}); -->
+<!-- 현재는 material bar chart -->
+<!-- classic chart -->
+<!-- google.charts.load('current', {'packages': ['corechart']}); -->
 <!-- var visualization = new google.visualization.BarChart(container); -->
 
 <!-- async: false를 사용해서 생긴 경고문구 -->
 <!-- Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. -->
 <!-- ajax를 동기식으로 처리하게 될 경우 사용자의 경험에 안좋은 영향을 끼치기 때문에 사용하지 말라는 경고문구 임. -->
-<!-- 즉, ajax가 종료될때까지 함수가 종료되지 않으므로 사용자의 성능에 안좋은 영향을 준다는 소리인 것 같음. -->
-<!-- 해결방법은... 아직 모르겠음... -->
+<!-- 즉, ajax가 종료될때까지 함수가 종료되지 않으므로 서버통신 완료될 때까지 사용자는 먹통인 화면을 봐야하니 주의하는 뜻임. -->
