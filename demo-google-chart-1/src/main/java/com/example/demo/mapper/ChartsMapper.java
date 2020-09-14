@@ -9,5 +9,5 @@ import com.example.demo.vo.ToppingVO;
 @Mapper
 public interface ChartsMapper {
 	
-	public List<ToppingVO> selectBarChartList();
+	public List<ToppingVO> selectChartList();
 }

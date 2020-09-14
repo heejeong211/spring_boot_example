@@ -6,7 +6,7 @@
 <mapper namespace="com.example.demo.mapper.ChartsMapper">
 
 	<!-- 리스트 출력 -->
-	<select id="selectBarChartList" resultType="com.example.demo.vo.ToppingVO">
+	<select id="selectChartList" resultType="com.example.demo.vo.ToppingVO">
 		SELECT T_NO, NAME, NUM FROM TOPPING
 	</select>
 	

@@ -15,9 +15,9 @@ public class ChartsServiceImpl implements ChartsService{
 	ChartsMapper barChartMapper;
 
 	@Override
-	public List<ToppingVO> selectBarChartList() {
+	public List<ToppingVO> selectChartList() {
 		
-		return barChartMapper.selectBarChartList();
+		return barChartMapper.selectChartList();
 	}
 
 }

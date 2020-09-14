@@ -6,5 +6,5 @@ import com.example.demo.vo.ToppingVO;
 
 public interface ChartsService {
 
-	public List<ToppingVO> selectBarChartList();
+	public List<ToppingVO> selectChartList();
 }

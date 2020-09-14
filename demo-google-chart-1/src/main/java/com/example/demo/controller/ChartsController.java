@@ -21,7 +21,7 @@ import com.example.demo.vo.ToppingVO;
 public class ChartsController {
 
 	@Autowired
-	ChartsService barChartService;
+	ChartsService chartService;
 	
 	//bar_charts_view 호출 부분
 	@RequestMapping(value="/bar_charts_view", method=RequestMethod.GET)
@@ -58,34 +58,37 @@ public class ChartsController {
 		System.out.println("controller start");
 		
 		ResponseEntity<JSONObject> entity = null;
-		List<ToppingVO> items = barChartService.selectBarChartList();
+		List<ToppingVO> items = chartService.selectChartList();
 		
 		//리스트 형태를 json 형태로 만들어서 리턴
 		JSONObject data = new JSONObject();
 		
 		//컬럼 객체
-		JSONObject col1 = new JSONObject();
-		JSONObject col2 = new JSONObject();
-		JSONArray title = new JSONArray();
-		col1.put("label", "토핑재료");
+		//서버에서 웹으로 넘겨줄 가장 큰 단위인 JSONObject
+		JSONObject col1 = new JSONObject(); //cols의 첫 번째 object를 담을 JSONObject
+		JSONObject col2 = new JSONObject(); //cols의 두 번째 object를 담을 JSONObject
+		JSONArray title = new JSONArray(); //위의 두개의 JSONObject를 담을 JSONArray
+		
+		col1.put("label", "토핑재료"); //JSONObject에 값을 담을 때는 put을 사용한다.
 		col1.put("type", "string");
+		
 		col2.put("label", "개수");
 		col2.put("type", "number");
 		
-		title.add(col1);
+		title.add(col1); //JSONArray에 추가할 때는 add를 사용한다.
 		title.add(col2);
 		
 		data.put("cols", title);
 		
-		//들어갈 형태  ->  rows 객체 에 배열  <- 
-		//  <- [  c 라는 객체에 배열 <- 객체
-		//  data 객체 -> rows 배열 <-  c 객체  ->배열  <- v 객체 2개/
+		//들어갈 형태  => rows 객체에 배열  <- c 라는 객체에 배열  <- v 객체
+		//data 객체 => rows 객체 -> 배열  <- c 객체  -> 배열  <- v 객체 2개
 		
 		JSONArray body = new JSONArray();
 		
-		for(ToppingVO vo : items) {
+		for(ToppingVO vo : items) { //items만큼 반복하면 형식을 만든다.
 			JSONObject name = new JSONObject();
 			name.put("v", vo.getName()); //이름 -> v객체
+			
 			JSONObject num = new JSONObject();
 			num.put("v", vo.getNum()); //가격 -> v객체
 			
@@ -104,6 +107,7 @@ public class ChartsController {
 		
 		//배열 형태의 body를 rows 키값으로 객체 data에 담는다.
 		data.put("rows", body);
+		
 		try {
 			entity = new ResponseEntity<JSONObject>(data, HttpStatus.OK);
 		} catch(Exception e) {
@@ -121,7 +125,8 @@ public class ChartsController {
 }
 
 
-/*	 구글 차트 JSON 데이터의 형식
+/*	구글 차트 JSON 데이터의 형식
+ *  크게 보면 JSONObject안에 cols와 rows라는 2개의 JSONArray가 있고 그 안에 또 JSONObject와 JSONArray, String값이 있는 거임.
 {
     "cols": [
         {"label":"Topping","type":"string"},
@@ -137,5 +142,7 @@ public class ChartsController {
 }
 
 rows : [ 배열 (객체 :배열[객체])]
+
+sample data를 보면 c, v, f가 있는데, c->cell, v->value, f->format(f는 필수X)
 */
 
