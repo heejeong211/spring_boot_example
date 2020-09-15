@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org">
+<head>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+	google.charts.load('current', {'packages' : [ 'bar' ]});
+	google.charts.setOnLoadCallback(drawChart); //drawChart는 밑에 데이터 setting 할 함수 이름임.
+
+	function drawChart() {
+		
+		//이렇게 하면 string임
+		console.log(/*[[${str}]]*/);
+		
+		//이렇게 하면 array임
+//		console.log(/*[(@{${str}})]*/); //stack over flow에서 해결함. 아래가 메인임.
+		console.log(/*[(${str})]*/); //전체주석으로 감싸줘도 되고 안감싸줘도 됨.
+		console.log("[(${str})]");
+		
+		var data = google.visualization.arrayToDataTable(
+				[(${str})]
+		);
+		
+		var options = {
+			chart : {
+				title : '피자 토핑',
+				subtitle : '피자먹고싶당', // 클래식 막대형 차트에서는 영향x
+			},
+			bars : 'horizontal', //막대그래프 가로로(이부분 지우면 세로됨) 클래식 막대형 차트에서는 영향x
+			colors: ['pink']
+		}; 
+
+		var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+		chart.draw(data, options);
+	}
+/*]]>*/
+</script>
+</head>
+
+<body>
+	<div id="barchart_material" style="width: 500px; height: 300px;"></div>
+	<hr>
+	<div th:each="list : ${list}">
+		<span th:text="${list.name}"></span>
+		<span th:text="${list.num}"></span>
+	</div>
+	<hr>
+	<div th:text="${str}"></div> <!-- 결과값은 차이가 없는데 F12 누르고 Sources 확인하면 작은 따옴표(')가 유니코드로 나옴 -->
+	<hr>
+	<div th:utext="${str}"></div>
+</body>
+</html>
+
+<!-- 현재는 material bar chart -->
+<!-- classic chart -->
+<!-- google.charts.load('current', {'packages': ['corechart']}); -->
+<!-- var visualization = new google.visualization.BarChart(container); -->
