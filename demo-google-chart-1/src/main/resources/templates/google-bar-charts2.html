@@ -20,7 +20,7 @@
 		//즉, 차트가 그려지기 전에는 다른 작업은 하지 못한다.
 		//responseText: 서버의 응답 텍스트
 		var jsonData = $.ajax({
-			url: "/list",
+			url: "/two_list",
 			dataType: "json",
 			async: false
 		}).responseText;
@@ -33,10 +33,14 @@
 		var options = {
 			chart : {
 				title : '피자 토핑',
-				subtitle : '피자먹고싶당', //클래식 차트(corechart)에서는 영향x
+				subtitle : '피자먹고싶당' //클래식 차트(corechart)에서는 영향x
 			},
-			bars : 'horizontal', //막대그래프 가로로(이부분 지우면 세로됨) 클래식 막대형 차트에서는 영향x -> Column Chart가 따로 있음..
-			colors: ['skyblue']
+			hAxis: {
+				title: '수',
+				minValue: 0
+			}, //클래식 차트에서만 영향
+			bars : 'horizontal', //막대그래프 가로로(이부분 지우면 세로됨) 클래식 막대형 차트에서는 영향x
+			colors: ['skyblue', 'navy']
 		}; 
 
 		//차트 그리기

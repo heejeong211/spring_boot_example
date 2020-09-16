@@ -12,4 +12,5 @@ public class ToppingVO {
 	private int t_no;
 	private String name;
 	private int num;
+	private int fresh;
 }
