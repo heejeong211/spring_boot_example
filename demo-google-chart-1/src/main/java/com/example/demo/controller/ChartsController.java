@@ -50,6 +50,15 @@ public class ChartsController {
 		return new ModelAndView("google-pie-charts");
 	}
 	
+	//bar_line_charts_view 호출 부분
+	@RequestMapping(value="/bar_line_charts_view", method=RequestMethod.GET)
+	public ModelAndView list_bar_line_view () {
+		
+		System.out.println("bar_charts_view");
+		
+		return new ModelAndView("google-bar-line-charts");
+	}
+	
 	//ajax 통신 부분
 	@ResponseBody
 	@RequestMapping(value="/list" ,method=RequestMethod.GET)
