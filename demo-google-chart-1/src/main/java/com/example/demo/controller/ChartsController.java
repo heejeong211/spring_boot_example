@@ -122,6 +122,8 @@ public class ChartsController {
 		return entity;
 	}
 	
+	/*=============================== 데이터 2개 ===============================*/
+	
 	//two_bar_charts_view 호출 부분
 	@RequestMapping(value="/two_bar_charts_view", method=RequestMethod.GET)
 	public ModelAndView list_two_bar_view () {
@@ -129,6 +131,15 @@ public class ChartsController {
 		System.out.println("two_bar_charts_view");
 		
 		return new ModelAndView("google-bar-charts2");
+	}
+	
+	//combo_charts_view 호출 부분
+	@RequestMapping(value="/combo_charts_view", method=RequestMethod.GET)
+	public ModelAndView list_combo_view () {
+		
+		System.out.println("combo_charts_view");
+		
+		return new ModelAndView("google-combo-charts");
 	}
 	
 	//ajax 통신 부분

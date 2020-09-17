@@ -7,7 +7,7 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 <script type="text/javascript">
-	google.charts.load('current', {'packages' : [ 'bar' ]});
+	google.charts.load('current', {'packages' : [ 'corechart' ]});
 	google.charts.setOnLoadCallback(drawChart); //drawChart는 밑에 데이터 setting 할 함수 이름임.
 
 	//차트 그리기 함수
@@ -31,22 +31,28 @@
 		
 		//옵션
 		var options = {
-			chart : {
-				title : '피자 토핑',
-				subtitle : '피자먹고싶당' //클래식 차트(corechart)에서는 영향x
-			},
+			title : '피자 토핑',
+			subtitle : '피자먹고싶당', //클래식 차트(corechart)에서는 영향x
 			hAxis: {
 				title: '토핑재료'
 			}, //수평, 클래식 차트일 때만 영향
 			vAxis: {
 				title: '수'
 			}, //수직, 클래식 차트일 때만 영향
-			bars : 'horizontal', //막대그래프 가로로(이부분 지우면 세로됨) 클래식 막대형 차트에서는 영향x -> column charts 에서 구현할 수 있음.
-			colors: ['skyblue', 'navy']
+			seriesType: 'bars', //series는 클래식 차트일 때만 영향
+			series: {
+				0: {
+					dataOpacity: 0.5, //series 옵션을 사용할 때 투명도 지정하려면 이 옵션 사용해야 함.
+					color: 'orange'
+				},
+				1: {
+					type: 'line', //데이터에서 라인그래프로 만들 값을 지정, 1은 순서를 의미하며 0부터 시작.
+					color: 'tomato'
+				}
+			}
 		}; 
-
 		//차트 그리기
-		var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+		var chart = new google.visualization.ComboChart(document.getElementById('combochart_classic'));
 		//draw(데이터, 옵션)
 		chart.draw(data, options);
 	}
@@ -54,14 +60,9 @@
 </head>
 
 <body>
-	<div id="barchart_material" style="width: 500px; height: 300px;"></div>
+	<div id="combochart_classic" style="width: 500px; height: 300px;"></div>
 </body>
 </html>
-
-<!-- 현재는 material bar chart -->
-<!-- classic chart -->
-<!-- google.charts.load('current', {'packages': ['corechart']}); -->
-<!-- var visualization = new google.visualization.BarChart(container); -->
 
 <!-- async: false를 사용해서 생긴 경고문구 -->
 <!-- Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. -->
