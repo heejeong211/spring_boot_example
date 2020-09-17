@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+<head>
+<!-- google chart CDN -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<!-- 이 CDN 꼭 넣어야 함.. 안넣으면 jQuery를 읽지 못함... -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+	google.charts.load('current', {'packages' : [ 'corechart' ]});
+	google.charts.setOnLoadCallback(drawChart); //drawChart는 밑에 데이터 setting 할 함수 이름임.
+
+	//차트 그리기 함수
+	 function drawChart() {
+		
+		//json 데이터 받아오기
+		//dataType: "json" 결과값이 json 형식
+		//async: false 비동기식 옵션을 끔(동기식)
+		//ajax는 비동기식이다. 즉 기본값이 비동기식 true이다.
+		//즉, 차트가 그려지기 전에는 다른 작업은 하지 못한다.
+		//responseText: 서버의 응답 텍스트
+		var jsonData = $.ajax({
+			url: "/anno_two_list",
+			dataType: "json",
+			async: false
+		}).responseText;
+		alert(jsonData);
+		
+		//json 데이터를 데이터 테이블로 변환(꼭 new 해야함!!!)
+		var data = new google.visualization.DataTable(jsonData);
+		
+		//옵션
+		var options = {
+			title : '피자 토핑',
+			subtitle : '피자먹고싶당', //클래식 차트(corechart)에서는 영향x
+			hAxis: {
+				title: '토핑재료'
+			}, //수평, 클래식 차트일 때만 영향
+			vAxis: {
+				title: '수'
+			}, //수직, 클래식 차트일 때만 영향
+			seriesType: 'bars', //series는 클래식 차트일 때만 영향
+			series: {
+				0: {
+					dataOpacity: 0.5, //series 옵션을 사용할 때 투명도 지정하려면 이 옵션 사용해야 함.
+					color: 'orange',
+					annotations: {
+						alwaysOutside: true,
+						textStyle: {
+							color: 'orang',
+							bold: true
+						}
+					} //주석, alwaysOutside 옵션이 없으면 주석색 안바뀌어짐...
+				},
+				1: {
+					type: 'line', //데이터에서 라인그래프로 만들 값을 지정, 1은 순서를 의미하며 0부터 시작.
+					color: 'tomato'
+				}
+			}
+		}; 
+		//차트 그리기
+		var chart = new google.visualization.ComboChart(document.getElementById('combochart_classic'));
+		//draw(데이터, 옵션)
+		chart.draw(data, options);
+	}
+</script>
+</head>
+
+<body>
+	<div id="combochart_classic" style="width: 500px; height: 300px;"></div>
+</body>
+</html>
+
+<!-- async: false를 사용해서 생긴 경고문구 -->
+<!-- Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. -->
+<!-- ajax를 동기식으로 처리하게 될 경우 사용자의 경험에 안좋은 영향을 끼치기 때문에 사용하지 말라는 경고문구 임. -->
+<!-- 즉, ajax가 종료될때까지 함수가 종료되지 않으므로 서버통신 완료될 때까지 사용자는 먹통인 화면을 봐야하니 주의하는 뜻임. -->

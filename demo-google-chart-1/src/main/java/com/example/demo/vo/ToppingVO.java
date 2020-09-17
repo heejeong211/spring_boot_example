@@ -13,4 +13,5 @@ public class ToppingVO {
 	private String name;
 	private int num;
 	private int fresh;
+	private String anno;
 }
