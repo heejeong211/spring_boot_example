@@ -243,6 +243,24 @@ public class ChartsController {
 		return new ModelAndView("google-combo-charts2");
 	}
 	
+	//column_charts_anno_view 호출 부분
+	@RequestMapping(value="/column_charts_anno_view", method=RequestMethod.GET)
+	public ModelAndView list_column_anno_view () {
+		
+		System.out.println("column_charts_anno_view");
+		
+		return new ModelAndView("google-column-charts");
+	}
+	
+	//stack_bar_charts_anno_view 호출 부분
+	@RequestMapping(value="/stack_bar_charts_anno_view", method=RequestMethod.GET)
+	public ModelAndView list_stack_bar_anno_view () {
+		
+		System.out.println("stack_bar_charts_anno_view");
+		
+		return new ModelAndView("google-bar-charts3");
+	}
+	
 	//ajax 통신 부분
 	@ResponseBody
 	@RequestMapping(value="/anno_two_list" ,method=RequestMethod.GET)

@@ -32,7 +32,7 @@
 		//옵션
 		var options = {
 			title : '피자 토핑',
-			subtitle : '피자먹고싶당', //클래식 차트(corechart)에서는 영향x
+			subtitle : 'pizza topping', //클래식 차트(corechart)에서는 영향x
 			hAxis: {
 				title: '토핑재료'
 			}, //수평, 클래식 차트일 때만 영향
@@ -42,19 +42,19 @@
 			seriesType: 'bars', //series는 클래식 차트일 때만 영향
 			series: {
 				0: {
-					dataOpacity: 0.5, //series 옵션을 사용할 때 투명도 지정하려면 이 옵션 사용해야 함.
-					color: 'orange',
+					dataOpacity: 0.8, //series 옵션을 사용할 때 투명도 지정하려면 이 옵션 사용해야 함.
+					color: 'MidnightBlue',
 					annotations: {
 						alwaysOutside: true,
 						textStyle: {
-							color: 'orang',
-							bold: true
+							color: 'grey'
 						}
-					} //주석, alwaysOutside 옵션이 없으면 주석색 안바뀌어짐...
+					} //주석, alwaysOutside: true 옵션이 없으면 주석색 안바뀌어짐...
 				},
 				1: {
 					type: 'line', //데이터에서 라인그래프로 만들 값을 지정, 1은 순서를 의미하며 0부터 시작.
-					color: 'tomato'
+					color: 'moccasin',
+					lineWidth: 3
 				}
 			}
 		}; 

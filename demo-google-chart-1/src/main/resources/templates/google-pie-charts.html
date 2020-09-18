@@ -32,7 +32,7 @@
 		//옵션
 		var options = {
 			title : '피자 토핑',
-			subtitle : '피자먹고싶당', //클래식 차트(corechart)에서는 영향x
+			subtitle : 'pizza topping', //클래식 차트(corechart)에서는 영향x
 			legend: {
 				position:'left',
 				textStyle: {
@@ -40,7 +40,10 @@
 					fontSize: 16
 					}
 				},	//legend: 지도, 도표의 범례(right가 default) / 범례 글자색 검은색
-			colors: ['#FAE5D3', '#ECF0F1', '#78281F', '#C0392B', '#F1C40F', '#A93226', '#F5B7B1', '#17202A']
+			colors: ['#F5F5F5', '#F0FFF0', '#FAF0E6', '#C0392B', '#F1C40F', '#800000', '#F5B7B1', '#17202A'],
+			pieSliceTextStyle: {
+				color: 'white' //pie 차트 안에 글씨색 바꾸는 옵션(defualt: white)
+			}
 		}; 
 
 		//차트 그리기

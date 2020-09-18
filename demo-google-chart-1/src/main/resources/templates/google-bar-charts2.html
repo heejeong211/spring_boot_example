@@ -33,16 +33,16 @@
 		var options = {
 			chart : {
 				title : '피자 토핑',
-				subtitle : '피자먹고싶당' //클래식 차트(corechart)에서는 영향x
+				subtitle : 'pizza topping' //클래식 차트(corechart)에서는 영향x
 			},
 			hAxis: {
-				title: '토핑재료'
+				title: '수'
 			}, //수평, 클래식 차트일 때만 영향
 			vAxis: {
-				title: '수'
+				title: '토핑재료'
 			}, //수직, 클래식 차트일 때만 영향
 			bars : 'horizontal', //막대그래프 가로로(이부분 지우면 세로됨) 클래식 막대형 차트에서는 영향x -> column charts 에서 구현할 수 있음.
-			colors: ['skyblue', 'navy']
+			colors: ['lightblue', 'lightgreen']
 		}; 
 
 		//차트 그리기
