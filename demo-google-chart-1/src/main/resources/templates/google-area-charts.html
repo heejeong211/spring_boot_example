@@ -20,7 +20,7 @@
 		//즉, 차트가 그려지기 전에는 다른 작업은 하지 못한다.
 		//responseText: 서버의 응답 텍스트
 		var jsonData = $.ajax({
-			url: "/list",
+			url: "/two_list",
 			dataType: "json",
 			async: false
 		}).responseText;
@@ -33,37 +33,18 @@
 		var options = {
 			title : '피자 토핑',
 			subtitle : 'pizza topping', //클래식 차트(corechart)에서는 영향x
-			legend: {
-				position:'left',
-				textStyle: {
-					color: 'black',
-					fontSize: 16
-					}
-				},	//legend: 지도, 도표의 범례(default: right) / 범례 글자색 검은색
-			colors: ['#F5F5F5', '#F0FFF0', '#FAF0E6', '#C0392B', '#F1C40F', '#800000', '#F5B7B1', '#17202A'],
-			pieSliceTextStyle: {
-				color: 'white' //pie 차트 안에 글씨색 바꾸는 옵션(default: white)
-			},
-			is3D: false, //3d 파이 차트(default: false)
-			pieStartAngle: 0, //시작 지점이 돌아감(default: 0, 100 정도가 좋음)
-			slices: {
-				1: {
-					offset: 0.2
-				},
-				2: {
-					offset: 0.3
-				},
-				3: {
-					offset: 0.4
-				},
-				6: {
-					offset: 0.5
-				}
-			} //조각조각(?) view를 보여주는 옵션
+			hAxis: {
+				title: '토핑재료'
+			}, //수평, 클래식 차트일 때만 영향
+			vAxis: {
+				title: '수'
+			}, //수직, 클래식 차트일 때만 영향
+			colors: ['darkturquoise', 'sandybrown'],
+			isStacked: true
 		}; 
 
 		//차트 그리기
-		var chart = new google.visualization.PieChart(document.getElementById('piechart_classic'));
+		var chart = new google.visualization.AreaChart(document.getElementById('areachart_classic'));
 		//draw(데이터, 옵션)
 		chart.draw(data, options);
 	}
@@ -71,7 +52,7 @@
 </head>
 
 <body>
-	<div id="piechart_classic" style="width: 700px; height: 400px;"></div>
+	<div id="areachart_classic" style="width: 500px; height: 300px;"></div>
 </body>
 </html>
 

@@ -14,4 +14,5 @@ public class ToppingVO {
 	private int num;
 	private int fresh;
 	private String anno;
+	private int ratio;
 }

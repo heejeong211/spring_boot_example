@@ -39,27 +39,13 @@
 					color: 'black',
 					fontSize: 16
 					}
-				},	//legend: 지도, 도표의 범례(default: right) / 범례 글자색 검은색
+				},	//legend: 지도, 도표의 범례(right가 default) / 범례 글자색 검은색
 			colors: ['#F5F5F5', '#F0FFF0', '#FAF0E6', '#C0392B', '#F1C40F', '#800000', '#F5B7B1', '#17202A'],
 			pieSliceTextStyle: {
 				color: 'white' //pie 차트 안에 글씨색 바꾸는 옵션(default: white)
 			},
-			is3D: false, //3d 파이 차트(default: false)
-			pieStartAngle: 0, //시작 지점이 돌아감(default: 0, 100 정도가 좋음)
-			slices: {
-				1: {
-					offset: 0.2
-				},
-				2: {
-					offset: 0.3
-				},
-				3: {
-					offset: 0.4
-				},
-				6: {
-					offset: 0.5
-				}
-			} //조각조각(?) view를 보여주는 옵션
+			pieHole: 0.3, //pie 차트에서 이 옵션만 주면 바로 donut 차트임.
+			//is3D: true //3d 파이 차트(default: false), 이 옵션 도넛차트에서는 안됨..
 		}; 
 
 		//차트 그리기
