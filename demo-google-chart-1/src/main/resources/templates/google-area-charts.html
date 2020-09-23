@@ -40,7 +40,13 @@
 				title: '수'
 			}, //수직, 클래식 차트일 때만 영향
 			colors: ['darkturquoise', 'sandybrown'],
-			isStacked: true
+			isStacked: true,
+			explorer: { 
+		        actions: ['dragToZoom', 'rightClickToReset'],
+		        axis: 'vertical', //수직 (보통은 'horizontal' 수평 사용 )
+		        keepInBounds: true,
+		        maxZoomIn: 4.0
+			} //explorer options은  숫자 또는 날짜에서만 작동함..(그래서 수직만 됨..) 익스플로러 옵션을 사용기 위해서는 저 옵션 다 필요함.
 		}; 
 
 		//차트 그리기

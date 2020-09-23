@@ -7,7 +7,7 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
 <script type="text/javascript">
-	google.charts.load('current', {'packages' : [ 'corechart' ]});
+	google.charts.load('current', {'packages' : [ 'table' ]});
 	google.charts.setOnLoadCallback(drawChart); //drawChart는 밑에 데이터 setting 할 함수 이름임.
 
 	//차트 그리기 함수
@@ -20,7 +20,7 @@
 		//즉, 차트가 그려지기 전에는 다른 작업은 하지 못한다.
 		//responseText: 서버의 응답 텍스트
 		var jsonData = $.ajax({
-			url: "/four_list",
+			url: "/two_fomat_list",
 			dataType: "json",
 			async: false
 		}).responseText;
@@ -31,32 +31,57 @@
 		
 		//옵션
 		var options = {
-			title : '피자 토핑',
-			subtitle : 'pizza topping', //클래식 차트(corechart)에서는 영향x
-			hAxis: {
-				title: '수'
-			}, //수평, 클래식 차트일 때만 영향
-			vAxis: {
-				title: '신선도'
-			}, //수직, 클래식 차트일 때만 영향
-			colors: ['#F5F5F5', '#F0FFF0', '#FAF0E6', '#C0392B', '#F1C40F', '#800000', '#F5B7B1', '#17202A'],
-			animation: {
-				duration: 1000, //1초
-				easing: 'out', //애니메이션 옵션의 핵심 기능(default: 'linear'), (in: 천천히 시작), (out: 빠르게 시작), (inAndOut: 천천히 시작 속도 올림 다시 낮춤)
-				startup: true
-			} //애니메이션 옵션을 사용하기 위해서는 저 옵션들이 다 필요함
+			showRowNumber: true, //행 개수 보여주는 options
+			allowHtml: true, //true로 설정하면 HTML 태그가 포함된 셀의 서식에 지정된 값이 HTML로 렌더링됨.
+			cssClassNames: {
+				 headerRow: 'headerRow',
+			     tableRow: 'tableRow',
+			     oddTableRow: 'oddTableRow',
+			     selectedTableRow: 'selectedTableRow',
+			     // hoverTableRow: 'hoverTableRow',
+			     headerCell: 'headerCell',
+			     tableCell: 'tableCell',
+			     rowNumberCell: 'rowNumberCell'
+			} //각 속성 이름이 테이블 요소를 결정하고 속성 값이 해당 테이블 요소에 할당 할 클래스를 정의하는 문자열인 객체이다.
 		}; 
 
 		//차트 그리기
-		var chart = new google.visualization.BubbleChart(document.getElementById('bubblechart_classic'));
+		var chart = new google.visualization.Table(document.getElementById('tablechart'));
 		//draw(데이터, 옵션)
 		chart.draw(data, options);
 	}
 </script>
+
+<style>
+th { 
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: darkslategray;
+  border-color: grey !important;
+  color: white;
+} /* table의 header부분임 */
+
+.oddTableRow {
+    background-color: darkseagreen;
+} /* 홀수부분의 행 부분*/
+
+.tableRow { 
+	background-color:rgb(246, 253, 253); 
+} /* 전체 행 부분 */
+
+tr:hover {
+	background-color: skyblue !important;
+} /* 행의 hover */
+
+.selectedTableRow {
+    background-color: rgba(141, 186, 238, 0.76) !important;
+} /* 선택한 행 */
+</style>
 </head>
 
 <body>
-	<div id="bubblechart_classic" style="width: 600px; height: 500px;"></div>
+	<div id="tablechart" style="width: 500px; height: 300px;"></div>
 </body>
 </html>
 

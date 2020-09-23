@@ -20,7 +20,7 @@
 		//즉, 차트가 그려지기 전에는 다른 작업은 하지 못한다.
 		//responseText: 서버의 응답 텍스트
 		var jsonData = $.ajax({
-			url: "/four_list",
+			url: "/num_list",
 			dataType: "json",
 			async: false
 		}).responseText;
@@ -33,22 +33,42 @@
 		var options = {
 			title : '피자 토핑',
 			subtitle : 'pizza topping', //클래식 차트(corechart)에서는 영향x
+			series: {
+		           0: {
+		            targetAxisIndex: 0, //세로축의 값을 왼쪽 뿐만 아니라 오른쪽도 보여준다.
+		            annotations: {
+						textStyle: {
+							color: 'black', //여기에서는 왜 alwaysOutside: true 옵션이 없어도 color를 변경할 수 있지...?? 느낌에 bar 차트(차트가 가로로 되어있어서)라서 가능한듯.. column 차트(세로 차트)는 안되나봄..
+							bold: true
+						}
+		            }
+		           },
+		           1: {
+		            targetAxisIndex: 1, //세로축의 값을 왼쪽 뿐만 아니라 오른쪽도 보여준다.
+		            annotations: {
+						textStyle: {
+							color: 'black', //여기에서는 왜 alwaysOutside: true 옵션이 없어도 color를 변경할 수 있지...?? 느낌에 bar 차트(차트가 가로로 되어있어서)라서 가능한듯.. column 차트(세로 차트)는 안되나봄..
+							bold: true
+						}
+					}
+		           } 
+		         },
 			hAxis: {
-				title: '수'
+				title: '토핑 ID'
 			}, //수평, 클래식 차트일 때만 영향
-			vAxis: {
-				title: '신선도'
+			vAxes: { //차트에 여러 세로축이 있을 경우 사용(보통은 vAxis options 사용)
+				0: {
+					title: '신선도'
+				},
+				1: {
+					 title: '수'
+				}
 			}, //수직, 클래식 차트일 때만 영향
-			colors: ['#F5F5F5', '#F0FFF0', '#FAF0E6', '#C0392B', '#F1C40F', '#800000', '#F5B7B1', '#17202A'],
-			animation: {
-				duration: 1000, //1초
-				easing: 'out', //애니메이션 옵션의 핵심 기능(default: 'linear'), (in: 천천히 시작), (out: 빠르게 시작), (inAndOut: 천천히 시작 속도 올림 다시 낮춤)
-				startup: true
-			} //애니메이션 옵션을 사용하기 위해서는 저 옵션들이 다 필요함
+			colors: ['palevioletred', 'silver']
 		}; 
 
 		//차트 그리기
-		var chart = new google.visualization.BubbleChart(document.getElementById('bubblechart_classic'));
+		var chart = new google.visualization.ScatterChart(document.getElementById('scatterchart_classic'));
 		//draw(데이터, 옵션)
 		chart.draw(data, options);
 	}
@@ -56,9 +76,14 @@
 </head>
 
 <body>
-	<div id="bubblechart_classic" style="width: 600px; height: 500px;"></div>
+	<div id="scatterchart_classic" style="width: 500px; height: 300px;"></div>
 </body>
 </html>
+
+<!-- 현재는 classic chart -->
+<!-- material scatter chart(익스플로러에서는 안됨) -->
+<!-- google.charts.load('current', {'packages': ['scatter']}); -->
+<!-- var visualization = new google.charts.Scatter(container); -->
 
 <!-- async: false를 사용해서 생긴 경고문구 -->
 <!-- Synchronous XMLHttpRequest on the main thread is deprecated because of its detrimental effects to the end user's experience. -->
