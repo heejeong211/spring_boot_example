@@ -12,12 +12,12 @@ import com.example.demo.vo.ToppingVO;
 public class ChartsServiceImpl implements ChartsService{
 	
 	@Autowired
-	ChartsMapper barChartMapper;
+	ChartsMapper chartsMapper;
 
 	@Override
 	public List<ToppingVO> selectChartList() {
 		
-		return barChartMapper.selectChartList();
+		return chartsMapper.selectChartList();
 	}
 
 }
