@@ -17,4 +17,5 @@ public class ToppingVO {
 	private int ratio;
 	private boolean putIn;
 	private String kindOf;
+	private int dollar;
 }
