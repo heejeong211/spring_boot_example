@@ -18,7 +18,7 @@
 		//async: false 비동기식 옵션을 끔(동기식)
 		//ajax는 비동기식이다. 즉 기본값이 비동기식 true이다.
 		//즉, 차트가 그려지기 전에는 다른 작업은 하지 못한다.
-		//responseText: 서버의 응답 텍스트
+		//responseText: 서버의 응답 텍스트(json 파일을 text파일로 읽어들인다는 뜻)
 		var jsonData = $.ajax({
 			url: "/list",
 			dataType: "json",
