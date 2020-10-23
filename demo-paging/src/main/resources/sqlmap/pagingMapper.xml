@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.PagingMapper">
+
+	<!-- 일반 리스트 출력 -->
+	<select id="selectList" resultType="com.example.demo.vo.PagingVO">
+		<![CDATA[
+			SELECT
+				B_NO, DIVISION, TITLE, CONTENT, USER, CREATEDATE
+			FROM DEMOBOARD
+			WHERE B_NO > 0
+		]]>
+		<include refid="search"></include>
+		<![CDATA[
+			ORDER BY B_NO DESC
+			LIMIT #{pageStart}, #{perPageNum}
+		]]>
+	</select>
+	
+	<!-- 공지사항 리스트 출력 -->
+	<select id="selectListNotice" resultType="com.example.demo.vo.PagingVO">
+		<![CDATA[
+			SELECT
+				B_NO, DIVISION, TITLE, CONTENT, USER, CREATEDATE
+			FROM DEMOBOARD
+			WHERE DIVISION = '공지사항' AND B_NO > 0
+			ORDER BY B_NO DESC
+			LIMIT 5
+		]]>
+	</select>
+	
+	<!-- 공지사항 리스트 + 일반 리스트 출력 -->
+	<select id="selectListAll" resultType="com.example.demo.vo.PagingVO">
+		<![CDATA[
+			(SELECT
+				B_NO, DIVISION, TITLE, CONTENT, USER, CREATEDATE
+			FROM DEMOBOARD
+			WHERE DIVISION = '공지사항' AND B_NO > 0
+			ORDER BY B_NO DESC
+			LIMIT 5)
+			UNION ALL
+			(SELECT
+				B_NO, DIVISION, TITLE, CONTENT, USER, CREATEDATE
+			FROM DEMOBOARD
+			WHERE B_NO > 0
+		]]>
+		<include refid="search"></include>
+		<![CDATA[
+			ORDER BY B_NO DESC
+			LIMIT #{pageStart}, #{perPageNum})
+		]]>
+	</select>
+	
+	<select id="countListCriteria" resultType="int">
+	 	<![CDATA[
+		 	SELECT COUNT(B_NO) FROM DEMOBOARD
+		 	WHERE B_NO > 0
+	 	]]>
+	 	<include refid="search"></include>
+	</select>
+	
+	<sql id="search">
+		<if test="searchDivision != null and searchType != null">
+			<if test="searchDivision == 'n'.toString()">
+				<if test="searchType == 't'.toString()">
+					AND (DIVISION LIKE CONCAT('%', '공지사항', '%') AND TITLE LIKE CONCAT('%', #{keyword}, '%'))
+				</if>
+				<if test="searchType == 'tc'.toString()">
+					AND (DIVISION LIKE CONCAT('%', '공지사항', '%') AND (TITLE LIKE CONCAT('%', #{keyword}, '%') OR CONTENT LIKE CONCAT('%', #{keyword}, '%')))
+				</if>
+			</if>
+			<if test="searchDivision == 'g'.toString()">
+				<if test="searchType == 't'.toString()">
+					AND (DIVISION LIKE CONCAT('%', '상품안내', '%') AND TITLE LIKE CONCAT('%', #{keyword}, '%'))
+				</if>
+				<if test="searchType == 'tc'.toString()">
+					AND (DIVISION LIKE CONCAT('%', '상품안내', '%') AND (TITLE LIKE CONCAT('%', #{keyword}, '%') OR CONTENT LIKE CONCAT('%', #{keyword}, '%')))
+				</if>
+			</if>
+			<if test="searchDivision == 's'.toString()">
+				<if test="searchType == 't'.toString()">
+					AND (DIVISION LIKE CONCAT('%', '시스템', '%') AND TITLE LIKE CONCAT('%', #{keyword}, '%'))
+				</if>
+				<if test="searchType == 'tc'.toString()">
+					AND (DIVISION LIKE CONCAT('%', '시스템', '%') AND (TITLE LIKE CONCAT('%', #{keyword}, '%') OR CONTENT LIKE CONCAT('%', #{keyword}, '%')))
+				</if>
+			</if>
+			<if test="searchDivision == 'o'.toString()">
+				<if test="searchType == 't'.toString()">
+					AND (DIVISION LIKE CONCAT('%', '기타', '%') AND TITLE LIKE CONCAT('%', #{keyword}, '%'))
+				</if>
+				<if test="searchType == 'tc'.toString()">
+					AND (DIVISION LIKE CONCAT('%', '기타', '%') AND (TITLE LIKE CONCAT('%', #{keyword}, '%') OR CONTENT LIKE CONCAT('%', #{keyword}, '%')))
+				</if>
+			</if>
+			<if test="searchDivision == 'all'.toString()">
+				<if test="searchType == 't'.toString()">
+					AND (DIVISION LIKE CONCAT('%', #{keyword}, '%') OR TITLE LIKE CONCAT('%', #{keyword}, '%'))
+				</if>
+				<if test="searchType == 'tc'.toString()">
+					AND (DIVISION LIKE CONCAT('%', #{keyword}, '%') OR (TITLE LIKE CONCAT('%', #{keyword}, '%') OR CONTENT LIKE CONCAT('%', #{keyword}, '%')))
+				</if>
+			</if>
+		</if>
+	</sql>
+	
+</mapper>
